@@ -2,6 +2,18 @@
 This repository contains ESP32 micropython firmware to subcribe to the door bell over MQTT and send a whatsapp message from the ESP32 dev board
 It can also send the door bell notification by email and carry out OTA upgrade
 
+ESP32 steps:
+
+1. Subscribe to topic: home/bedroom/boxroom/temperature/req {"read":"temperature"}
+2. On receiving topic, publish: home/bedroom/boxroom/temperature/cnf {"temperature":2100}
+3. Subscribe to topic: home/doorbell/ind with contents
+{
+  "bellPush": {
+    "count": 1,
+    "time": 1735210160
+  }
+}
+
 ## Raspberry Pi
 
 rshell --buffer-size=30 -p /dev/ttyUSB0
