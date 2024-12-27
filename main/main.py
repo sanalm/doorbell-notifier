@@ -4,6 +4,7 @@ from main.dhtRead import DHTReader
 from boot import MyStation
 import os
 import machine
+import ujson
 from lib.umqttsimple import MQTTClient
 import ubinascii
 import time
@@ -48,17 +49,21 @@ def sub_cb(topic, msg):
   print((topic, msg))
   if topic == b'home/bedroom/boxroom/temperature/req':
     if msg == b'{"read":"temperature"}':
-      #print('ESP received home/bedroom/boxroom/temperature/req with {"read":"temperature"}')
       r = DHTReader()
-      t = r.measure() * 100
-      msg = '{"temperature": %.2f}' % t
-      client.publish(topic_pub, msg)
+      reading = {}
+      reading["temperature"] = r.measure() * 100
+      encodedReading = ujson.dumps(reading)
+      print(encodedReading)
+      client.publish(topic_pub, encodedReading)
 
     if msg == b'{"read":"rssi"}':
       s = MyStation()
-      rssi = s.read_rssi()
-      msg = '{"rssi": %d}' % rssi
-      client.publish(topic_pub, msg)
+      reading = {}
+      reading["rssi"] = s.read_rssi()
+      encodedReading = ujson.dumps(reading)
+      print(encodedReading)
+
+      client.publish(topic_pub, encodedReading)
 
 def connect_and_subscribe():
   client_id = ubinascii.hexlify(machine.unique_id())
@@ -80,10 +85,6 @@ try:
   client = connect_and_subscribe()
 except OSError as e:
   restart_and_reconnect()
-
-last_message = 0
-message_interval = 5
-counter = 0
 
 while True:
   try:
