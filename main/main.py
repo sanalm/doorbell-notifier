@@ -21,19 +21,14 @@ def start():
     # ...
     r = DHTReader()
     t = r.measure()
-    # r.using_email(from_email, from_password)
-    # r.send_email(to_email, email_body, override_mail_from, email_subject, t)
-    r.init_mail({'from': override_mail_from, 'from_email': from_email, 'from_password': from_password, 'to': to_email, 'subject': email_subject, 'text': email_body},
-          {'image_capture' : image_capture, 'name' : 'drive.jpeg'})
-    r.send_mail()
     # r.read_forever()
     r.wait_bell_press()
 
 def boot():
-    if 'next' in os.listdir():
-        download_and_install_update_if_available()
-    else:
-        check_for_update_to_install_during_next_reboot()
+    # if 'next' in os.listdir():
+    #     download_and_install_update_if_available()
+    # else:
+    #     check_for_update_to_install_during_next_reboot()
     start()
 
 # load configuration for a file
