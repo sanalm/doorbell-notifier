@@ -46,14 +46,20 @@ def boot():
 # mqtt defs
 # ------------------------------------------------------------------------------------------
 
+topic_pub = b'home/bedroom/boxroom/temperature/cnf'
+
 def sub_cb(topic, msg):
   print((topic, msg))
-  if topic == b'notification' and msg == b'received':
-    print('ESP received hello message')
+  if topic == b'home/bedroom/boxroom/temperature/req' and msg == b'{"read":"temperature"}':
+    #print('ESP received home/bedroom/boxroom/temperature/req with {"read":"temperature"}')
+    r = DHTReader()
+    t = r.measure() * 100
+    msg = '{"temperature": %.2f}' % t
+    client.publish(topic_pub, msg)
 
 def connect_and_subscribe():
   client_id = ubinascii.hexlify(machine.unique_id())
-  topic_sub = b'notification'
+  topic_sub = b'home/bedroom/boxroom/temperature/req'
 
   client = MQTTClient(client_id, mqtt_server, user=mqtt_user, password=mqtt_pass)
   client.set_callback(sub_cb)
@@ -75,16 +81,10 @@ except OSError as e:
 last_message = 0
 message_interval = 5
 counter = 0
-topic_pub = b'hello'
 
 while True:
   try:
     client.check_msg()
-    if (time.time() - last_message) > message_interval:
-      msg = b'Hello #%d' % counter
-      client.publish(topic_pub, msg)
-      last_message = time.time()
-      counter += 1
   except OSError as e:
     restart_and_reconnect()
 
