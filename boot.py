@@ -21,6 +21,7 @@ last_message = 0
 message_interval = 5
 counter = 0
 
+global station
 station = network.WLAN(network.STA_IF)
 
 station.active(True)
@@ -31,5 +32,10 @@ while station.isconnected() == False:
 
 print('Connection successful')
 print(station.ifconfig())
+
+class MyStation:
+  def read_rssi(self):
+      r = station.status('rssi')
+      return r
 
 import main.main
