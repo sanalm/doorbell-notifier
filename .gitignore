@@ -1,4 +1,6 @@
 # ignore main.conf
 main.conf
 
-.code-workspace
+pymakr.conf
+
+doorbell-notifier.code-workspace
