@@ -62,7 +62,6 @@ def sub_cb(topic, msg):
       reading["rssi"] = s.read_rssi()
       encodedReading = ujson.dumps(reading)
       print(encodedReading)
-
       client.publish(topic_pub, encodedReading)
 
 def connect_and_subscribe():
