@@ -64,7 +64,3 @@ class DHTReader:
         sleep(self.ledInterval)
         sleep(self.readingInterval)
         return t
-
-    def read_forever(self):
-        while True:
-            t = self.measure()

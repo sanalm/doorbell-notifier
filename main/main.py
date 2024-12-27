@@ -27,13 +27,8 @@ def download_and_install_update_if_available():
     o.download_and_install_update_if_available(ssid, password)
 
 def start():
-    # your custom code goes here. Something like this: ...
-    # from main.x import YourProject
-    # project = YourProject()
-    # ...
     r = DHTReader()
     t = r.measure()
-    # r.read_forever()
     r.wait_bell_press()
 
 def boot():
