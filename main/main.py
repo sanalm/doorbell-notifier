@@ -80,6 +80,12 @@ def restart_and_reconnect():
   time.sleep(10)
   machine.reset()
 
+#
+# ------------------------------------------------------------------------------------------
+#
+
+boot()
+
 try:
   client = connect_and_subscribe()
 except OSError as e:
@@ -90,9 +96,3 @@ while True:
     client.check_msg()
   except OSError as e:
     restart_and_reconnect()
-
-#
-# ------------------------------------------------------------------------------------------
-#
-
-boot()
